@@ -5,13 +5,13 @@ import User from "@/models/User";
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "quickcart-next" });
 
-// inngest function to sava user data to a database
+// inngest function to save user data to a database
 
 export const syncUserCreation = inngest.createFunction(
     {
         id:"sync-user-from-clerk"
     },
-    { event: 'cleark/user.created'},
+    { event: 'clerk/user.created' },
 
     async ({event}) => {
        const { id, first_name, last_name, email_address, image_url} = event.data
@@ -34,7 +34,7 @@ export const syncUserUpdation = inngest.createFunction(
     {
         id: 'update-user-from-clerk'
     },
-    { event: 'clerk/user.updated'},
+    { event: "clerk/user.updated" },  
 
     async ({event})=> {
         const { id, first_name, last_name, email_address, image_url} = event.data
@@ -57,7 +57,7 @@ export const syncUserDeletion = inngest.createFunction(
     {
         id: 'delete-user-with-clerk'
     },
-    { event: 'clerk.user.deleted'},
+    { event: 'clerk/user.deleted' },
 
     async ({event}) => {
         const {id} = event.data

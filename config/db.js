@@ -1,27 +1,28 @@
 import mongoose from "mongoose";
 
-let cached = global.mangoose
+let cached = global.mongoose;
 
-if(!cached) {
-    cached = global.mangoose = { conn: null, promise : null}
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function connectDB() {
-    if(cached.conn) {
-        return cached.conn
+    if (cached.conn) {
+        return cached.conn;
     }
 
-    if(cached.promise) {
+    if (!cached.promise) {  // Fix the condition to correctly check if the promise is null
         const opts = {
             bufferCommands: false,
-        }
+        };
 
-        cached.promise = mangoose.connect(`${process.env.MONGODB_URI}/quickcart`,opts).then( mangoose =>{
-            return mangoose
-        })
+        cached.promise = mongoose.connect(`${process.env.MONGODB_URI}/quickcart`, opts).then((mongoose) => {
+            return mongoose;
+        });
     }
 
-    cached.conn = await cached.promise
-    return cached.conn
+    cached.conn = await cached.promise;
+    return cached.conn;
 }
-export default connectDB
+
+export default connectDB;
